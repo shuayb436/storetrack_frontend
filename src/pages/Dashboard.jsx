@@ -1,6 +1,9 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react'
-import { Link } from 'react-router-dom'
+// import { Link } from 'react-router-dom'
+// import { Sidebar } from '../components/Sidebar';
+// import { Header } from '../components/Header';
+// import Footer from '../components/Footer';
 
 export const Dashboard = () => {
 
@@ -44,7 +47,10 @@ export const Dashboard = () => {
 
   return (
     <>
-      <div>
+    {/* <Header/>
+    <Sidebar/>
+    <main id="main" className="main"> */}
+
         <div className="pagetitle">
           <h1>Dashboard</h1>
           <nav>
@@ -62,19 +68,9 @@ export const Dashboard = () => {
                 {/* Sales Card */}
                 <div className="col-xxl-4 col-md-4 col-sm-6">
                   <div className="card info-card sales-card">
-                    <div className="filter">
-                      <a className="icon" href="#" data-bs-toggle="dropdown"><i className="bi bi-three-dots" /></a>
-                      <ul className="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
-                        <li className="dropdown-header text-start">
-                          <h6>Filter</h6>
-                        </li>
-                        <li><a className="dropdown-item" href="#">Today</a></li>
-                        <li><a className="dropdown-item" href="#">This Month</a></li>
-                        <li><a className="dropdown-item" href="#">This Year</a></li>
-                      </ul>
-                    </div>
+                 
                     <div className="card-body">
-                      <h5 className="card-title">Total Product <span>| Today</span></h5>
+                      <h5 className="card-title">Total Product</h5>
                       <div className="d-flex align-items-center">
                         <div className="card-icon rounded-circle d-flex align-items-center justify-content-center">
                           <i className="fa-solid fa-bag-shopping" style={{ color: "green", fontSize: "38px" }}></i>
@@ -91,19 +87,9 @@ export const Dashboard = () => {
                 {/* Revenue Card */}
                 <div className="col-xxl-4 col-md-4 col-sm-6">
                   <div className="card info-card revenue-card">
-                    <div className="filter">
-                      <a className="icon" href="#" data-bs-toggle="dropdown"><i className="bi bi-three-dots" /></a>
-                      <ul className="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
-                        <li className="dropdown-header text-start">
-                          <h6>Filter</h6>
-                        </li>
-                        <li><a className="dropdown-item" href="#">Today</a></li>
-                        <li><a className="dropdown-item" href="#">This Month</a></li>
-                        <li><a className="dropdown-item" href="#">This Year</a></li>
-                      </ul>
-                    </div>
+                    
                     <div className="card-body">
-                      <h5 className="card-title"> Sales <span>| Today</span></h5>
+                      <h5 className="card-title"> Sales</h5>
                       <div className="d-flex align-items-center">
                         <div className="card-icon rounded-circle d-flex align-items-center justify-content-center">
                           {/* <i className="bi bi-currency-dollar" /> */}
@@ -122,19 +108,9 @@ export const Dashboard = () => {
                 </div>
                 <div className="col-xxl-4 col-md-4 col-sm-6">
                   <div className="card info-card revenue-card">
-                    <div className="filter">
-                      <a className="icon" href="#" data-bs-toggle="dropdown"><i className="bi bi-three-dots" /></a>
-                      <ul className="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
-                        <li className="dropdown-header text-start">
-                          <h6>Filter</h6>
-                        </li>
-                        <li><a className="dropdown-item" href="#">Today</a></li>
-                        <li><a className="dropdown-item" href="#">This Month</a></li>
-                        <li><a className="dropdown-item" href="#">This Year</a></li>
-                      </ul>
-                    </div>
+                 
                     <div className="card-body">
-                      <h5 className="card-title">Stock History <span>| This Month</span></h5>
+                      <h5 className="card-title">Stock History</h5>
                       <div className="d-flex align-items-center">
                         <div className="card-icon rounded-circle d-flex align-items-center justify-content-center">
                           {/* <i className="bi bi-currency-dollar" /> */}
@@ -149,13 +125,11 @@ export const Dashboard = () => {
                       </div>
                     </div>
                   </div>
-                </div>{/* End Revenue Card */}
+                </div>
               </div>
-            </div>{/* End Left side columns */}
+            </div>
           </div>
         </section>
-      </div>
-
     </>
   )
 }

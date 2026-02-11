@@ -1,6 +1,10 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
+// import { Header } from '../components/Header';
+// import { Sidebar } from '../components/Sidebar';
+// import Footer from '../components/Footer';
+// import 'bootstrap/dist/js/bootstrap.bundle.min.js'; 
 
 export const DailySales = () => {
   const [products, setProducts] = useState([]);
@@ -45,7 +49,11 @@ export const DailySales = () => {
     // alert("Sale recorded successfully");
 
     // Refresh sales table
-    fetchSales();
+    // fetchSales();
+    //OR
+    // reload products after save(refresh table)
+    const res = await axios.get("http://localhost:8080/api/v1/storetrack/dailysales")
+    setSales(res.data)
 
     // Reset form
     setProductId("");
@@ -55,9 +63,10 @@ export const DailySales = () => {
 
  // auto close modal
       document.getElementById("closeModalBtn").click();
-      // const modalEl = document.getElementById("basicModal");
+      //  const modalEl = document.getElementById("basicModal");
       // const modal = window.bootstrap.Modal.getInstance(modalEl)
       // modal.hide();
+
   };
 
   const getProductName=(id)=>{
@@ -66,6 +75,11 @@ export const DailySales = () => {
   }
   return (
     <>
+    {/* <Header/>
+    <Sidebar/>
+    <main id="main" className="main"> */}
+
+
       <div className="pagetitle">
         <h1>Daily Sales</h1>
         <nav>
@@ -77,7 +91,7 @@ export const DailySales = () => {
       </div>
 
       {/* MODAL */}
-      <button type="button" style={{}} className="btn btn-success mb-3" data-bs-toggle="modal" data-bs-target="#basicModal">
+      <button type="button" className="btn btn-success mb-3" data-bs-toggle="modal" data-bs-target="#basicModal">
         Add Daily Sales
       </button>
 
@@ -86,7 +100,8 @@ export const DailySales = () => {
           <div className="modal-content">
             <div className="modal-header">
               <h5 className="modal-title">Basic Modal</h5>
-              <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close" />
+
+              <button type="button" className="btn-close" data-bs-dismiss="modal" id="closeModalBtn" aria-label="Close" />
             </div>
 
             <div className="modal-body">
@@ -133,15 +148,11 @@ export const DailySales = () => {
                 </div>
                 <div className="text-center">
                   <button type="submit" className="btn btn-primary me-3">Submit</button>
-                  <button type="reset" className="btn btn-secondary">Reset</button>
+                  <button type="button" className="btn btn-secondary" data-bs-dismiss="modal" id="closeModalBtn">Close</button>
                 </div>
               </form>
 
             </div>
-            {/* <div className="modal-footer">
-              <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-              <button type="button" className="btn btn-primary">Save changes</button>
-            </div> */}
           </div>
         </div>
       </div>
@@ -185,6 +196,8 @@ export const DailySales = () => {
           </div>
         </div>
       </section>
+    {/* </main>
+    <Footer/> */}
     </>
   )
 }

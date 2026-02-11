@@ -3,6 +3,9 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+// import { Sidebar } from "../components/Sidebar";
+// import { Header } from "../components/Header";
+// import Footer from "../components/Footer";
 
 export const StockHistory = () => {
   const [stockHistory, setStockHistory] = useState([]);
@@ -70,6 +73,10 @@ export const StockHistory = () => {
   }
   return (
     <>
+      {/* <Header/>
+      <Sidebar/>
+      <main id="main" className="main"> */}
+
       <div className="pagetitle">
         <h1>Stock History</h1>
         <nav>
@@ -79,56 +86,6 @@ export const StockHistory = () => {
           </ol>
         </nav>
       </div>
-
-      {/* MODAL */}
-      {/* <button type="button" style={{}} className="btn btn-success mb-3" data-bs-toggle="modal" data-bs-target="#basicModal">
-        Add Stock History
-      </button>
-
-      <div className="modal fade" id="basicModal" tabIndex={-1}>
-        <div className="modal-dialog">
-          <div className="modal-content">
-            <div className="modal-header">
-              <h5 className="modal-title">Stock History Details</h5>
-              <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close" />
-            </div>
-
-            <div className="modal-body">
-
-              <h5 className="card-title">Floating labels Form</h5>
-              <form className="row g-3" onSubmit={handleSubmit}>
-                <div className="col-md-12">
-                </div>
-                <div className="col-md-6">
-                  <div className="form-floating">
-                    <input value={changeType} onChange={(e) => setChangeType(e.target.value)} type="number" className="form-control" placeholder="Quantity Sold" />
-                    <label htmlFor="floatingQuantitySold">Change Type</label>
-                  </div>
-                </div>
-                <div className="col-md-6">
-                  <div className="form-floating">
-                    <input value={changeDate} onChange={(e) => setChangeDate(e.target.value)} type="date" className="form-control" placeholder="Sales Date" />
-                    <label htmlFor="floatingSaleDate">Change Date</label>
-                  </div>
-                </div>
-                <div className="col-md-6">
-                  <div className="form-floating">
-                    <input value={changeQty} onChange={(e) => setChangeQty(e.target.value)} type="number" className="form-control" placeholder="Selling Price" required />
-                    <label htmlFor="floatingSellingPrice">Change Quantity</label>
-                  </div>
-                </div>
-                <div className="text-center">
-                  <button type="submit" className="btn btn-primary me-3">Submit</button>
-                  <button type="reset" className="btn btn-secondary">Reset</button>
-                </div>
-              </form>
-
-            </div>
-          </div>
-        </div>
-      </div> */}
-
-
 
       <section className="section">
         <div className="row">
@@ -177,6 +134,8 @@ export const StockHistory = () => {
           </div>
         </div>
       </section>
+      {/* </main>
+      <Footer/> */}
     </>
   );
 };

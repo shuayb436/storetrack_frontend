@@ -1,5 +1,4 @@
 import React from 'react';
-// import { createBrowserRouter, createRoutesFromElements, Route } from 'react-router-dom';
 import HomeLayout from '../pages/HomeLayout';
 import { Product } from '../pages/Product';
 import { DailySales } from '../pages/DailySales';

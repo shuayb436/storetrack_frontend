@@ -1,6 +1,9 @@
 import axios from 'axios'
 import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
+// import { Sidebar } from '../components/Sidebar';
+// import { Header } from '../components/Header';
+// import Footer from '../components/Footer';
 // import 'bootstrap/dist/js/bootstrap.bundle.min.js'; 
 
 export const Product = () => {
@@ -36,13 +39,6 @@ export const Product = () => {
   const handleSubmit = async (e) => {
     e.preventDefault(); // stop page reload
 
-    // const data = {
-    //   name: proName,
-    //   quantity,
-    //   price,
-    //   minQuantity: minQty,
-    // };
-    //OR
     const data = {
       name: proName,
       quantity: quantity,
@@ -54,13 +50,19 @@ export const Product = () => {
 
       if (editId) {
         // Update product(PUT)
-        await axios.put(
+      await axios.put(
           `http://localhost:8080/api/v1/storetrack/product/${editId}`,
           data
         );
+        alert("Product updated successfully");
+
+
       } else {
-        //create(POST)
+        //create/add(POST)
         await axios.post("http://localhost:8080/api/v1/storetrack/product", data)
+     
+        alert("Product added successfully");
+
       }
 
       // reload products after save(refresh table)
@@ -100,9 +102,17 @@ export const Product = () => {
     const modalEl = document.getElementById("basicModal");
     const modal = new window.bootstrap.Modal(modalEl);
     modal.show();
+    
   };
 
   // DELETE FUNCTION
+  //   async function handleDelete(id){
+  //   //delete from backend
+  //   await axios.delete("http://localhost:8080/api/v1/storetrack/product/"+id)
+  //   // uppdate UI by removing the delete row 
+  //   setProduct((prevPro)=> prevPro.filter(pro=> pro.id !== id))
+
+  // } 
   const handleDelete = async (id) => {
     const confirm = window.confirm("Are you sure you want to delete this product?");
     if (!confirm) return;
@@ -119,23 +129,7 @@ export const Product = () => {
     }
   };
 
-  //Restock which affect product INCREASE in Stock History table
-  const handleRestock = async (productId, addedQty) => {
-    try {
-      await axios.post(
-        `http://localhost:8080/api/v1/storetrack/product/${productId}/restock`,
-        { quantity: addedQty }
-      );
 
-      // refresh product list
-      const res = await axios.get("http://localhost:8080/api/v1/storetrack/product");
-      setProduct(res.data);
-
-      alert("Product restocked successfully");
-    } catch (error) {
-      console.error("Error restocking product", error);
-    }
-  };
   
   const renderStockBadge = (quantity, minQty) => {
     if (quantity === 0) {
@@ -151,6 +145,10 @@ export const Product = () => {
 
   return (
     <>
+       {/* <Header/>
+        <Sidebar/>
+        <main id="main" className="main"> */}
+
       <div className="pagetitle">
         <h1>Product Section</h1>
         <nav>
@@ -173,12 +171,10 @@ export const Product = () => {
               <h5 className="modal-title">
                 {editId ? "Edit Product" : "New Product"}
               </h5>
-              <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close" />
+              <button type="button" className="btn-close" data-bs-dismiss="modal" id="closeModalBtn" aria-label="Close" />
             </div>
 
             <div className="modal-body">
-
-              <h5 className="card-title">Floating labels Form</h5>
               <form className="row g-3" onSubmit={handleSubmit}>
                 <div className="col-md-12">
                   <div className="form-floating">
@@ -216,10 +212,6 @@ export const Product = () => {
               </form>
 
             </div>
-            {/* <div className="modal-footer">
-              <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-              <button type="submit" className="btn btn-primary">Save changes</button>
-            </div> */}
           </div>
         </div>
       </div>
@@ -238,7 +230,7 @@ export const Product = () => {
                       <th scope="col">Product Name</th>
                       <th scope="col">Quantity</th>
                       <th scope="col">Price</th>
-                      <th scope="col">Minimum Quantity</th>
+                      <th scope="col">Minimum Qty</th>
                       <th scope="col">Status</th>
                       <th scope="col">Action</th>
                     </tr>
@@ -250,7 +242,9 @@ export const Product = () => {
                         <td>{prod.name}</td>
                         <td>{prod.quantity}</td>
                         <td>{prod.price}</td>
-                        <td>{prod.minQuantity}</td>
+                        <td style={{textAlign:"center",paddingRight:"52px"}}>
+                          {prod.minQuantity}
+                        </td>
                         <td>
                           {renderStockBadge(prod.quantity, prod.minQuantity)}
                         </td>
@@ -262,18 +256,6 @@ export const Product = () => {
                             <i className="fa-solid fa-pen-to-square"></i>
                           </button>
 
-                          {/* RESTOCK button */}
-                          <button
-                            className="btn btn-sm btn-success me-2"
-                            onClick={() => {
-                              const addedQty = prompt("Enter quantity to add/restock:");
-                              if (addedQty && Number(addedQty) > 0) {
-                                handleRestock(prod.id, Number(addedQty));
-                              }
-                            }}
-                          >
-                            <i className="fa-solid fa-plus"></i>
-                          </button>
                           <button
                             className="btn btn-sm btn-danger"
                             onClick={() => handleDelete(prod.id)}
@@ -309,6 +291,8 @@ export const Product = () => {
           </div>
         </div>
       </section>
+        {/* </main>
+    <Footer/> */}
 
     </>
 
