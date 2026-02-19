@@ -69,6 +69,18 @@ export const DailySales = () => {
 
   };
 
+  const handleProductChange=(e)=>{
+    const selectedId = e.target.value
+    setProductId(selectedId)
+    // find selected product
+    const selectedProduct=products.find((p)=>p.id==Number(selectedId))
+    // autoset price
+     if (selectedProduct) {
+      setSellingPrice(selectedProduct.price);
+    } else {
+      setSellingPrice("");
+    }
+  }
   const getProductName=(id)=>{
     const product = products.find((p)=> p.id === id)
     return product ? product.name : "UnKnown"
@@ -115,34 +127,42 @@ export const DailySales = () => {
                       id="floatingSelect" 
                       aria-label="State" 
                       value={productId} 
-                      onChange={(e) => setProductId(e.target.value)} 
+                      onChange={handleProductChange} 
                       required
                     >
-                       <option value="">Select product</option>
-                      {products.map((p) => (
-                        <option key={p.id} value={p.id}>
-                          {p.name} (Stock: {p.quantity})
+                      {/* {products
+                        .filter(p => p.quantity > 0)
+                        .map(p => (
+                          <option key={p.id} value={p.id}>
+                            {p.name} (Stock: {p.quantity})
+                          </option>
+                      ))} */}
+                      {products.map(p => (
+                        <option key={p.id} value={p.id} disabled={p.quantity === 0}>
+                          {p.name} {p.quantity === 0 ? "(Out of Stock)" : `(Stock: ${p.quantity})`}
                         </option>
                       ))}
+
                     </select>
                     <label for="floatingSelect">Product</label>
                   </div>
                 </div>
                 <div className="col-md-6">
                   <div className="form-floating">
-                    <input value={quantitySold} onChange={(e) => setQuantitySold(e.target.value)} type="number" className="form-control" placeholder="Quantity Sold" />
+                    <input value={quantitySold} onChange={(e) => setQuantitySold(e.target.value)} type="number" className="form-control" placeholder="Quantity Sold" required />
                     <label htmlFor="floatingQuantitySold">Quantity Sold</label>
                   </div>
                 </div>
                 <div className="col-md-6">
                   <div className="form-floating">
-                    <input value={salesDate} onChange={(e) => setSalesDate(e.target.value)} type="date" className="form-control" placeholder="Sales Date" />
+                    <input value={salesDate} onChange={(e) => setSalesDate(e.target.value)} type="date" className="form-control" placeholder="Sales Date" required />
                     <label htmlFor="floatingSaleDate">Sales Date</label>
                   </div>
                 </div>
                 <div className="col-md-6">
                   <div className="form-floating">
-                    <input value={sellingPrice} onChange={(e) => setSellingPrice(e.target.value)} type="number" className="form-control" placeholder="Selling Price" required />
+                    {/* <input value={sellingPrice} onChange={(e) => setSellingPrice(e.target.value)} type="number" className="form-control" placeholder="Selling Price" required /> */}
+                    <input value={sellingPrice} type="number" className="form-control" placeholder="Selling Price" readOnly />
                     <label htmlFor="floatingSellingPrice">Selling Price</label>
                   </div>
                 </div>
@@ -184,7 +204,8 @@ export const DailySales = () => {
                         <td>{getProductName(sale.product_id)}</td>
                         <td>{sale.quantitySold}</td>
                         <td>{sale.selling_price}</td>
-                        <td>{sale.totalSale}</td>
+                        {/* <td>{sale.totalSale}</td> */}
+                        <td>{sale.totalSale.toLocaleString()}</td>
                         <td>{sale.salesDate}</td>
                       </tr>
                     ))}
