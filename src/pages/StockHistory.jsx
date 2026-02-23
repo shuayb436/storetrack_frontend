@@ -71,6 +71,22 @@ export const StockHistory = () => {
     const product = products.find((p) => p.id === id)
     return product ? product.name : "UnKnown"
   }
+
+    const handleDelete = async (id) => {
+    const confirm = window.confirm("Are you sure you want to delete this stock History?");
+    if (!confirm) return;
+
+    try {
+      await axios.delete(`http://localhost:8080/api/v1/storetrack/stockhistory/${id}`);
+
+      // Refresh table after delete
+      const res = await axios.get("http://localhost:8080/api/v1/storetrack/stockhistory");
+      setStockHistory(res.data);
+
+    } catch (error) {
+      console.error("Error deleting stockhistory", error);
+    }
+  };
   return (
     <>
       {/* <Header/>
@@ -104,6 +120,7 @@ export const StockHistory = () => {
                       <th scope="col">Change Type</th>
                       <th scope="col">Change Qty</th>
                       <th scope="col">Change Date</th>
+                      <th scope="col">Action</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -123,6 +140,14 @@ export const StockHistory = () => {
                         </td>
                         <td>{item.change_quantity}</td>
                         <td>{item.change_date}</td>
+                        <td>
+                          <button
+                            className="btn btn-sm btn-danger"
+                            onClick={() => handleDelete(item.id)}
+                          >
+                            <i className="fa-solid fa-trash"></i>
+                          </button>
+                        </td>
                       </tr>
                     ))
                     }

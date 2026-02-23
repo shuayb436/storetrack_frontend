@@ -1,10 +1,7 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
-// import { Header } from '../components/Header';
-// import { Sidebar } from '../components/Sidebar';
-// import Footer from '../components/Footer';
-// import 'bootstrap/dist/js/bootstrap.bundle.min.js'; 
+
 
 export const DailySales = () => {
   const [products, setProducts] = useState([]);
@@ -15,6 +12,8 @@ export const DailySales = () => {
   const [quantitySold, setQuantitySold] = useState("");
   const [sellingPrice, setSellingPrice] = useState("");
   const [salesDate, setSalesDate] = useState("");
+
+  const [editId, setEditId] = useState(null);
 
   // Fetch products
   const fetchProducts = async () => {
@@ -39,19 +38,25 @@ export const DailySales = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    await axios.post("http://localhost:8080/api/v1/storetrack/dailysales", {
+    const data ={
       product_id: Number(productId),
       quantitySold: Number(quantitySold),
       selling_price: Number(sellingPrice) ,
       salesDate: salesDate 
-    });
+    }
 
-    // alert("Sale recorded successfully");
-
-    // Refresh sales table
-    // fetchSales();
-    //OR
-    // reload products after save(refresh table)
+    try {
+      if (editId) {
+        await axios.put(`http://localhost:8080/api/v1/storetrack/dailysales/${editId}`, data);
+        alert("Product updated successfully");
+        
+      } else {
+        await axios.post("http://localhost:8080/api/v1/storetrack/dailysales", data);
+        alert("Product added successfully");
+        
+      }
+      
+          // reload products after save(refresh table)
     const res = await axios.get("http://localhost:8080/api/v1/storetrack/dailysales")
     setSales(res.data)
 
@@ -66,9 +71,47 @@ export const DailySales = () => {
       //  const modalEl = document.getElementById("basicModal");
       // const modal = window.bootstrap.Modal.getInstance(modalEl)
       // modal.hide();
+    } catch (error) {
+      console.error("Error saving dailySale", error)
+      
+    }
+
+    
+ 
 
   };
 
+  //Edit product fn
+  const handleEdit = (sale) => {
+    setEditId(sale.id); // mark as edit mode
+    setProductId(sale.product_id);
+    setQuantitySold(sale.quantitySold);
+    setSellingPrice(sale.selling_price);
+    setSalesDate(sale.salesDate);
+
+    // modal.show();
+    const modalEl = document.getElementById("basicModal");
+    const modal = new window.bootstrap.Modal(modalEl);
+    modal.show();
+    
+  };
+    const handleDelete = async (id) => {
+      const confirm = window.confirm("Are you sure you want to delete this Sale data?");
+      if (!confirm) return;
+  
+      try {
+        await axios.delete(`http://localhost:8080/api/v1/storetrack/dailysales/${id}`);
+  
+        // Refresh table after delete
+        const res = await axios.get("http://localhost:8080/api/v1/storetrack/dailysales");
+        setSales(res.data);
+  
+      } catch (error) {
+        console.error("Error deleting product", error);
+      }
+    };
+
+//AUTOMATIC GET PRICE FOR SELECTED PRODUCT TO B SOLD
   const handleProductChange=(e)=>{
     const selectedId = e.target.value
     setProductId(selectedId)
@@ -194,6 +237,7 @@ export const DailySales = () => {
                       <th scope="col">price</th>
                       <th scope="col">Total</th>
                       <th scope="col">Date</th>
+                      <th scope="col">Action</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -207,6 +251,21 @@ export const DailySales = () => {
                         {/* <td>{sale.totalSale}</td> */}
                         <td>{sale.totalSale.toLocaleString()}</td>
                         <td>{sale.salesDate}</td>
+                        <td>
+                          <button
+                            className="btn btn-sm btn-primary me-2"
+                            onClick={() => handleEdit(sale)}
+                          >
+                            <i className="fa-solid fa-pen-to-square"></i>
+                          </button>
+
+                          <button
+                            className="btn btn-sm btn-danger"
+                            onClick={() => handleDelete(sale.id)}
+                          >
+                            <i className="fa-solid fa-trash"></i>
+                          </button>
+                        </td>
                       </tr>
                     ))}
                   </tbody>

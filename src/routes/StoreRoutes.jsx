@@ -11,24 +11,9 @@ const StoreRoutes = createBrowserRouter(
         <>
             <Route path="" element={<HomeLayout />}> 
                 <Route path="/" element={<Dashboard />}/>
-                <Route
-                    path="/products"
-                    element={
-                        <Product />
-                    }
-                />
-                <Route
-                    path="/sales"
-                    element={
-                            <DailySales />
-                    }
-                />
-                <Route
-                    path="/history"
-                    element={
-                            <StockHistory />
-                    }
-                />
+                <Route path="/products" element={<Product />}/>
+                <Route path="/sales" element={ <DailySales />}/>
+                <Route path="/history" element={<StockHistory /> } />
             </Route>
 
         </>

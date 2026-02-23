@@ -1,22 +1,19 @@
 import axios from 'axios'
 import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
-// import { Sidebar } from '../components/Sidebar';
-// import { Header } from '../components/Header';
-// import Footer from '../components/Footer';
-// import 'bootstrap/dist/js/bootstrap.bundle.min.js'; 
+
 
 export const Product = () => {
-
+//kinaenda kuhifaziw kile kilicho vutwa
   const [product, setProduct] = useState([]);
-  const [isLoading, setIsLoading] = useState(true);
 
+//chini hizi ni za form input
   const [proName, setProName] = useState("");
   const [quantity, setQuantity] = useState("");
-  const [price, setPrice] = useState("");
-  const [minQty, setMinQty] = useState("");
+  const [price, setPrice] = useState(0);
+  const [minQty, setMinQty] = useState(0);
 
-  const [editId, setEditId] = useState(null);
+  const [editId, setEditId] = useState(null);//editform
 
   // const [formData, setFormData] = useState({});
 
@@ -26,19 +23,16 @@ export const Product = () => {
       const respro = await axios.get("http://localhost:8080/api/v1/storetrack/product");
       const proData = respro.data
       setProduct(proData);
-      setIsLoading(false)
-      // console.log(proData)
+     
     }
 
     getProducts();
   }, [])
-  if (isLoading) {
-    return <p>Loading...</p>
-  }
+ 
 
   const handleSubmit = async (e) => {
-    e.preventDefault(); // stop page reload
-
+    e.preventDefault(); // stop page reload OR REFRESH ili zile data zicja kupotea
+    //data ni object{}ukiona virable1 imeshikilia vitu tofat n object
     const data = {
       name: proName,
       quantity: quantity,
@@ -49,7 +43,7 @@ export const Product = () => {
     try {
 
       if (editId) {
-        // Update product(PUT)
+        // Update product(PUT)put ni method
       await axios.put(
           `http://localhost:8080/api/v1/storetrack/product/${editId}`,
           data
@@ -65,7 +59,7 @@ export const Product = () => {
 
       }
 
-      // reload products after save(refresh table)
+      // reload products after save(refresh table)nazivuta tena nilizo submit
       const res = await axios.get("http://localhost:8080/api/v1/storetrack/product")
       setProduct(res.data)
 
@@ -99,20 +93,13 @@ export const Product = () => {
     setMinQty(prod.minQuantity);
 
     // modal.show();
-    const modalEl = document.getElementById("basicModal");
+    const modalEl = document.getElementById("basicModal");//hii inaenda kuchukua ile form kwa id vile vile
     const modal = new window.bootstrap.Modal(modalEl);
     modal.show();
     
   };
 
-  // DELETE FUNCTION
-  //   async function handleDelete(id){
-  //   //delete from backend
-  //   await axios.delete("http://localhost:8080/api/v1/storetrack/product/"+id)
-  //   // uppdate UI by removing the delete row 
-  //   setProduct((prevPro)=> prevPro.filter(pro=> pro.id !== id))
 
-  // } 
   const handleDelete = async (id) => {
     const confirm = window.confirm("Are you sure you want to delete this product?");
     if (!confirm) return;
@@ -163,6 +150,7 @@ export const Product = () => {
       <button type="button" className="btn btn-success mb-3" data-bs-toggle="modal" data-bs-target="#basicModal">
         Add New Product
       </button >
+      
       <div className="modal fade" id="basicModal" tabIndex={-1}>
         <div className="modal-dialog">
           <div className="modal-content">
@@ -186,7 +174,7 @@ export const Product = () => {
                   <div className="form-floating">
                     <input type="number" onChange={(e) => setQuantity(e.target.value)} value={quantity} className="form-control" id="floatingNumber" placeholder="Quantity" />
                     <label htmlFor="floatingNumber">Quantity</label>
-                  </div>
+                  </div> 
                 </div>
                 <div className="col-md-6">
                   <div className="form-floating">
@@ -236,9 +224,9 @@ export const Product = () => {
                     </tr>
                   </thead>
                   <tbody>
-                    {product.map(((prod, index) => (
+                    {product.map((prod, index) => (
                       <tr key={prod.id}>
-                        <th scope="row">{index + 1}</th>
+                        <td scope="row">{index + 1}</td>
                         <td>{prod.name}</td>
                         <td>{prod.quantity}</td>
                         <td>{prod.price}</td>
@@ -264,24 +252,8 @@ export const Product = () => {
                           </button>
                         </td>
 
-                        {/* <td>
-                          <i
-                            className="fa-solid fa-pen-to-square text-primary me-3"
-                            style={{ cursor: "pointer" }}
-                            title="Edit"
-                            onClick={() => handleEdit(prod)}
-                          />
-
-                          <i
-                            className="fa-solid fa-trash text-danger"
-                            style={{ cursor: "pointer" }}
-                            title="Delete"
-                            onClick={() => handleDelete(prod.id)}
-                          />
-                        </td> */}
-
                       </tr>
-                    )))}
+                    ))}
 
                   </tbody>
                 </table>

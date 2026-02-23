@@ -11,7 +11,7 @@ const HomeLayout = () => {
             <Header />
             <Sidebar/>
             <div id="main">
-                <Outlet /> {/* This will render protected child routes */}
+                <Outlet /> {/* hiii hubadilika badilika page kwa kila kinachotolewa */}
             </div>
             <Footer />
             <Link to="#" className="back-to-top d-flex align-items-center justify-content-center">

@@ -6,18 +6,16 @@ import React, { useEffect, useState } from 'react'
 // import Footer from '../components/Footer';
 
 export const Dashboard = () => {
-
-  const [productTotal, setProductTotal] = useState(0);
+//inatumika viraiable ambazo zinachenge no constant bcs of user interaction
+  const [productTotal, setProductTotal] = useState(0); //ni kama medthode
   const [salesTotal, setSalesTotal] = useState(0);
   const [stockHisTotal, setStockHisTotal] = useState([]);
 
-
-  useEffect(() => {
     const getProducts = async () => {
       const respro = await axios.get("http://localhost:8080/api/v1/storetrack/product");
       const proData = respro.data;
 
-      setProductTotal(proData.length); // store total count
+      setProductTotal(proData.length); // lenth idadi zilizomo 
     };
 
     const fetchStockHistory = async () => {
@@ -29,18 +27,18 @@ export const Dashboard = () => {
         console.error("Error fetching stock history", error);
       }
     };
-    fetchStockHistory()
-    getProducts();
-  }, []);
 
-  useEffect(() => {
     const getSales = async () => {
       const respro = await axios.get("http://localhost:8080/api/v1/storetrack/dailysales");
       const proData = respro.data;
 
       setSalesTotal(proData.length); // store total count
     };
-
+  //tunaitumia wakati wakvuta data backend inaperfome kuvuta data ndio maana tumezitia function ndan y u-eefect
+  useEffect(() => {
+    
+    fetchStockHistory()
+    getProducts();
     getSales();
   }, []);
 
@@ -65,7 +63,7 @@ export const Dashboard = () => {
             {/* Left side columns */}
             <div className="col-lg-12">
               <div className="row">
-                {/* Sales Card */}
+                {/* total product */}
                 <div className="col-xxl-4 col-md-4 col-sm-6">
                   <div className="card info-card sales-card">
                  
@@ -83,8 +81,8 @@ export const Dashboard = () => {
                       </div>
                     </div>
                   </div>
-                </div>{/* End Sales Card */}
-                {/* Revenue Card */}
+                </div>{/* End total product */}
+                {/* sales card */}
                 <div className="col-xxl-4 col-md-4 col-sm-6">
                   <div className="card info-card revenue-card">
                     
@@ -98,9 +96,9 @@ export const Dashboard = () => {
 
                         </div>
                         <div className="ps-3">
-                          {/* <h6>$3,264</h6> */}
+                        
                           <h6>{salesTotal}</h6>
-                          {/* <span className="text-success small pt-1 fw-bold">8%</span> <span className="text-muted small pt-2 ps-1">increase</span> */}
+                        
                         </div>
                       </div>
                     </div>
@@ -108,7 +106,7 @@ export const Dashboard = () => {
                 </div>
                 <div className="col-xxl-4 col-md-4 col-sm-6">
                   <div className="card info-card revenue-card">
-                 
+                 {/* stock history */}
                     <div className="card-body">
                       <h5 className="card-title">Stock History</h5>
                       <div className="d-flex align-items-center">
