@@ -1,6 +1,6 @@
 // import React, { useEffect, useState } from "react";
-// import axios from "axios";
-import axios from "axios";
+// import axiosInstance from '../api/axiosInstance';
+import axiosInstance from '../api/axiosInstance';
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 // import { Sidebar } from "../components/Sidebar";
@@ -25,13 +25,13 @@ export const StockHistory = () => {
 
   // Fetch products
   const fetchProducts = async () => {
-    const res = await axios.get("http://localhost:8080/api/v1/storetrack/product");
+    const res = await axiosInstance.get("/api/v1/storetrack/product");
     setProducts(res.data);
   };
   //fetch stock Histories
   const fetchStockHistory = async () => {
     try {
-      const response = await axios.get("http://localhost:8080/api/v1/storetrack/stockhistory");
+      const response = await axiosInstance.get("/api/v1/storetrack/stockhistory");
       setStockHistory(response.data);
 
     } catch (error) {
@@ -49,7 +49,7 @@ export const StockHistory = () => {
       change_date: changeDate
       // change_type:changeType,
     }
-    await axios.post("http://localhost:8080/api/v1/storetrack/dailysales", data);
+    await axiosInstance.post("/api/v1/storetrack/dailysales", data);
 
     // alert("Sale recorded successfully");
 
@@ -77,10 +77,10 @@ export const StockHistory = () => {
     if (!confirm) return;
 
     try {
-      await axios.delete(`http://localhost:8080/api/v1/storetrack/stockhistory/${id}`);
+      await axiosInstance.delete(`/api/v1/storetrack/stockhistory/${id}`);
 
       // Refresh table after delete
-      const res = await axios.get("http://localhost:8080/api/v1/storetrack/stockhistory");
+      const res = await axiosInstance.get("/api/v1/storetrack/stockhistory");
       setStockHistory(res.data);
 
     } catch (error) {

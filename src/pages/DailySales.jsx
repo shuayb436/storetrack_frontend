@@ -1,4 +1,4 @@
-import axios from 'axios';
+import axiosInstance from '../api/axiosInstance';
 import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 
@@ -17,14 +17,14 @@ export const DailySales = () => {
 
   // Fetch products
   const fetchProducts = async () => {
-    const res = await axios.get("http://localhost:8080/api/v1/storetrack/product");
+    const res = await axiosInstance.get("/api/v1/storetrack/product");
     setProducts(res.data);
   };
 
 
   // Fetch daily sales
   const fetchSales = async () => {
-    const res = await axios.get("http://localhost:8080/api/v1/storetrack/dailysales");
+    const res = await axiosInstance.get("/api/v1/storetrack/dailysales");
     setSales(res.data);
   };
 
@@ -47,17 +47,17 @@ export const DailySales = () => {
 
     try {
       if (editId) {
-        await axios.put(`http://localhost:8080/api/v1/storetrack/dailysales/${editId}`, data);
+        await axiosInstance.put(`/api/v1/storetrack/dailysales/${editId}`, data);
         alert("Product updated successfully");
         
       } else {
-        await axios.post("http://localhost:8080/api/v1/storetrack/dailysales", data);
+        await axiosInstance.post("/api/v1/storetrack/dailysales", data);
         alert("Product added successfully");
         
       }
       
           // reload products after save(refresh table)
-    const res = await axios.get("http://localhost:8080/api/v1/storetrack/dailysales")
+    const res = await axiosInstance.get("/api/v1/storetrack/dailysales")
     setSales(res.data)
 
     // Reset form
@@ -100,10 +100,10 @@ export const DailySales = () => {
       if (!confirm) return;
   
       try {
-        await axios.delete(`http://localhost:8080/api/v1/storetrack/dailysales/${id}`);
+        await axiosInstance.delete(`/api/v1/storetrack/dailysales/${id}`);
   
         // Refresh table after delete
-        const res = await axios.get("http://localhost:8080/api/v1/storetrack/dailysales");
+        const res = await axiosInstance.get("/api/v1/storetrack/dailysales");
         setSales(res.data);
   
       } catch (error) {

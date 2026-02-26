@@ -1,4 +1,4 @@
-import axios from 'axios';
+import axiosInstance from '../api/axiosInstance';
 import React, { useEffect, useState } from 'react'
 // import { Link } from 'react-router-dom'
 // import { Sidebar } from '../components/Sidebar';
@@ -12,7 +12,7 @@ export const Dashboard = () => {
   const [stockHisTotal, setStockHisTotal] = useState([]);
 
     const getProducts = async () => {
-      const respro = await axios.get("http://localhost:8080/api/v1/storetrack/product");
+      const respro = await axiosInstance.get("/api/v1/storetrack/product");
       const proData = respro.data;
 
       setProductTotal(proData.length); // lenth idadi zilizomo 
@@ -20,7 +20,7 @@ export const Dashboard = () => {
 
     const fetchStockHistory = async () => {
       try {
-        const response = await axios.get("http://localhost:8080/api/v1/storetrack/stockhistory");
+        const response = await axiosInstance.get("/api/v1/storetrack/stockhistory");
         const stockData = response.data
         setStockHisTotal(stockData.length);
       } catch (error) {
@@ -29,7 +29,7 @@ export const Dashboard = () => {
     };
 
     const getSales = async () => {
-      const respro = await axios.get("http://localhost:8080/api/v1/storetrack/dailysales");
+      const respro = await axiosInstance.get("/api/v1/storetrack/dailysales");
       const proData = respro.data;
 
       setSalesTotal(proData.length); // store total count

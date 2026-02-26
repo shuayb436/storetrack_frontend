@@ -1,4 +1,4 @@
-import axios from 'axios'
+import axiosInstance from '../api/axiosInstance'
 import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 
@@ -20,7 +20,7 @@ export const Product = () => {
   useEffect(() => {
 
     const getProducts = async () => {
-      const respro = await axios.get("http://localhost:8080/api/v1/storetrack/product");
+      const respro = await axiosInstance.get("/api/v1/storetrack/product");
       const proData = respro.data
       setProduct(proData);
      
@@ -44,8 +44,8 @@ export const Product = () => {
 
       if (editId) {
         // Update product(PUT)put ni method
-      await axios.put(
-          `http://localhost:8080/api/v1/storetrack/product/${editId}`,
+      await axiosInstance.put(
+          `/api/v1/storetrack/product/${editId}`,
           data
         );
         alert("Product updated successfully");
@@ -53,14 +53,14 @@ export const Product = () => {
 
       } else {
         //create/add(POST)
-        await axios.post("http://localhost:8080/api/v1/storetrack/product", data)
+        await axiosInstance.post("/api/v1/storetrack/product", data)
      
         alert("Product added successfully");
 
       }
 
       // reload products after save(refresh table)nazivuta tena nilizo submit
-      const res = await axios.get("http://localhost:8080/api/v1/storetrack/product")
+      const res = await axiosInstance.get("/api/v1/storetrack/product")
       setProduct(res.data)
 
       // clear form
@@ -105,10 +105,10 @@ export const Product = () => {
     if (!confirm) return;
 
     try {
-      await axios.delete(`http://localhost:8080/api/v1/storetrack/product/${id}`);
+      await axiosInstance.delete(`/api/v1/storetrack/product/${id}`);
 
       // Refresh table after delete
-      const res = await axios.get("http://localhost:8080/api/v1/storetrack/product");
+      const res = await axiosInstance.get("/api/v1/storetrack/product");
       setProduct(res.data);
 
     } catch (error) {
